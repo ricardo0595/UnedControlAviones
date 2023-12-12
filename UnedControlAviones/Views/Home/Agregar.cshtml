@@ -1,0 +1,128 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div id="AgregarAviones">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form id="airplaneForm">
+                    <div class="mb-3">
+                        <label for="marca" class="form-label">Marca</label>
+                        <select class="form-select" id="marca" name="marca" required>
+                            <option value="Boeing">Boeing</option>
+                            <option value="Airbus">Airbus</option>
+                            <option value="Embraer">Embraer</option>
+                            <!-- Add more brands as needed -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modelo" class="form-label">Modelo</label>
+                        <select class="form-select" id="modelo" name="modelo" required>
+                            <option value="737">737</option>
+                            <option value="747">747</option>
+                            <option value="757">757</option>
+                            <option value="A320">A320</option>
+                            <option value="A330">A330</option>
+                            <option value="E175">E175</option>
+                            <!-- Add more models as needed -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="numeroSerie" class="form-label">Número de Serie</label>
+                        <input type="text" class="form-control" id="numeroSerie" name="numeroSerie" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="anchoAA" class="form-label">Ancho AA</label>
+                        <input type="number" class="form-control" id="anchoAA" name="anchoAA" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="alto" class="form-label">Alto</label>
+                        <input type="number" class="form-control" id="alto" name="alto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="largo" class="form-label">Largo</label>
+                        <input type="number" class="form-control" id="largo" name="largo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="autonomia" class="form-label">Autonomía</label>
+                        <input type="number" class="form-control" id="autonomia" name="autonomia" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" >Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var AgregarAviones = new Vue({
+        el: '#AgregarAviones',
+        data: {
+            message: 'Hello Vue!',
+            aviones: []
+        },
+        mounted() {
+
+            document.getElementById("airplaneForm").onsubmit = function (e) {
+
+                e.preventDefault();
+                //
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                let raw = JSON.stringify({
+                    "id": 0,
+                    "marca": document.getElementById("marca").value,
+                    "modelo": document.getElementById("modelo").value,
+                    "numeroSerie": document.getElementById("numeroSerie").value,
+                    "nombre": document.getElementById("nombre").value,
+                    "anchoAA": parseInt(document.getElementById("anchoAA").value),
+                    "alto": parseInt(document.getElementById("alto").value),
+                    "largo": parseInt(document.getElementById("largo").value),
+                    "autonomia": parseInt(document.getElementById("autonomia").value),
+                });
+
+                var requestOptions = {
+                    method: 'POST',
+                    redirect: 'follow',
+                    headers: myHeaders,
+                    body: raw
+                };
+                debugger
+                fetch(`${baseUrl}/Aviones`, requestOptions)
+                    .then(response => {
+                        response.json().then((data) => {
+                            console.log(data)
+                            alert("Avion agregado correctamente")
+                            document.getElementById("airplaneForm").reset();
+                        })
+                    })
+                    .catch(error => console.log('error', error));
+            }
+            
+        },
+        methods: {
+           
+        },
+        computed: {
+
+        }
+    })
+</script>
+
+
+
+

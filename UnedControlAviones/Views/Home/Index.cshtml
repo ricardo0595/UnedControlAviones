@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+<div id="ListaAviones">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+               <h1>Lista de Aviones</h1>
+               <br />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">NumeroSerie</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Ancho</th>
+                            <th scope="col">Alto</th>
+                            <th scope="col">Largo</th>
+                            <th scope="col">Autonomia</th>
+                            <th scope="col">Estado</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in aviones" :key="item.Id">
+                            <td>{{item.id}}</td>
+
+                            <td>{{item.marca}}</td>
+                            <td>{{item.modelo}}</td>
+                            <td>{{item.numeroSerie}}</td>
+                            <td>{{item.nombre}}</td>
+                            <td>{{item.ancho}}</td>
+                            <td>{{item.alto}}</td>
+                            <td>{{item.largo}}</td>
+                            <td>{{item.autonomia}}</td>
+                            <td>{{item.estado}}</td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ListaAviones = new Vue({
+        el: '#ListaAviones',
+        data: {
+            message: 'Hello Vue!',
+            aviones: []
+        },
+        mounted() {
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+            
+            fetch(`${baseUrl}/Aviones`, requestOptions)
+                .then(response => { 
+                    response.json().then((data) => {
+                        this.aviones = data;
+                    })
+                })
+                .catch(error => console.log('error', error));
+        },
+        methods: {
+
+        },
+        computed:{
+            
+        }
+    })
+</script>
